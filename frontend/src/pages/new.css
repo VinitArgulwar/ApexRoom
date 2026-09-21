@@ -1,0 +1,1012 @@
+
+/* =========================================
+   APEXROOM — NEW MEETING PAGE
+========================================= */
+
+* {
+  box-sizing: border-box;
+}
+
+.new-meeting-page {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+  overflow: hidden;
+
+  background: #f5f6f8;
+  color: #17181c;
+
+  font-family:
+    Inter,
+    -apple-system,
+    BlinkMacSystemFont,
+    "Segoe UI",
+    sans-serif;
+}
+
+
+/* =========================================
+   BACKGROUND
+========================================= */
+
+.new-meeting-page::before {
+  content: "";
+
+  position: absolute;
+
+  width: 520px;
+  height: 520px;
+
+  top: -300px;
+  left: -220px;
+
+  border-radius: 50%;
+
+  background: #e9edff;
+
+  pointer-events: none;
+}
+
+.new-meeting-page::after {
+  content: "";
+
+  position: absolute;
+
+  width: 460px;
+  height: 460px;
+
+  right: -240px;
+  bottom: -250px;
+
+  border-radius: 50%;
+
+  background: #eee8ff;
+
+  pointer-events: none;
+}
+
+
+/* =========================================
+   BACK TO DASHBOARD
+========================================= */
+
+.meeting-back {
+  position: absolute;
+
+  top: 28px;
+  left: 32px;
+
+  z-index: 20;
+
+  display: inline-flex;
+  align-items: center;
+
+  gap: 8px;
+
+  color: #70727a;
+
+  font-size: 13px;
+  font-weight: 500;
+
+  text-decoration: none !important;
+
+  transition:
+    color 0.2s ease,
+    transform 0.2s ease;
+}
+
+.meeting-back:link,
+.meeting-back:visited,
+.meeting-back:hover,
+.meeting-back:active {
+  text-decoration: none !important;
+}
+
+.meeting-back:hover {
+  color: #17181c;
+
+  transform: translateX(-3px);
+}
+
+.meeting-back span {
+  font-size: 18px;
+  line-height: 1;
+}
+
+
+/* =========================================
+   MAIN CONTAINER
+========================================= */
+
+.new-meeting-container {
+  min-height: 100vh;
+  width: 100%;
+
+  position: relative;
+  z-index: 5;
+
+  display: flex;
+  flex-direction: column;
+
+  align-items: center;
+  justify-content: center;
+
+  padding: 70px 20px 45px;
+}
+
+
+/* =========================================
+   LOGO
+========================================= */
+
+.meeting-logo {
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  margin-bottom: 30px;
+
+  color: #17181c;
+
+  font-size: 19px;
+  font-weight: 700;
+
+  letter-spacing: -0.5px;
+}
+
+.meeting-logo-mark {
+  width: 36px;
+  height: 36px;
+
+  border-radius: 10px;
+
+  background: #17181c;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 15px;
+  font-weight: 800;
+}
+
+
+/* =========================================
+   MAIN CARD
+========================================= */
+
+.new-meeting-card {
+  width: 100%;
+  max-width: 510px;
+
+  padding: 42px;
+
+  background: rgba(255, 255, 255, 0.96);
+
+  border: 1px solid #e3e4e8;
+
+  border-radius: 22px;
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px rgba(20, 20, 30, 0.08);
+
+  backdrop-filter: blur(10px);
+}
+
+
+/* =========================================
+   MEETING ICON
+========================================= */
+
+.meeting-icon {
+  width: 54px;
+  height: 54px;
+
+  margin: 0 auto 22px;
+
+  border-radius: 16px;
+
+  background: #eef0ff;
+  color: #596dd7;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 23px;
+}
+
+
+/* =========================================
+   HEADING
+========================================= */
+
+.meeting-eyebrow {
+  margin: 0 0 9px;
+
+  color: #898b93;
+
+  font-size: 10px;
+  font-weight: 700;
+
+  letter-spacing: 1.7px;
+}
+
+.new-meeting-card h1 {
+  margin: 0;
+
+  color: #17181c;
+
+  font-size: 31px;
+  font-weight: 700;
+
+  letter-spacing: -1.3px;
+
+  line-height: 1.15;
+}
+
+.meeting-description {
+  max-width: 390px;
+
+  margin: 13px auto 30px;
+
+  color: #85878f;
+
+  font-size: 13px;
+
+  line-height: 1.65;
+}
+
+
+/* =========================================
+   GENERATE BUTTON
+========================================= */
+
+.generate-section {
+  width: 100%;
+}
+
+.generate-button {
+  width: 100%;
+  min-height: 74px;
+
+  border: 1px solid #17181c;
+
+  border-radius: 12px;
+
+  padding: 13px 15px;
+
+  background: #17181c;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  text-align: left;
+
+  font-family: inherit;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background 0.2s ease;
+}
+
+.generate-button:hover {
+  transform: translateY(-2px);
+
+  background: #202126;
+
+  box-shadow:
+    0 10px 28px rgba(23, 24, 28, 0.18);
+}
+
+
+/* =========================================
+   BUTTON ICON
+========================================= */
+
+.button-icon {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: rgba(255, 255, 255, 0.1);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 21px;
+}
+
+
+/* =========================================
+   BUTTON CONTENT
+========================================= */
+
+.button-content {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 4px;
+}
+
+.button-content strong {
+  color: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.button-content small {
+  color: #a7a9b1;
+
+  font-size: 10px;
+}
+
+
+/* =========================================
+   BUTTON ARROW
+========================================= */
+
+.button-arrow {
+  flex-shrink: 0;
+
+  color: #b8bac2;
+
+  font-size: 18px;
+}
+
+
+/* =========================================
+   GENERATED LINK
+========================================= */
+
+.generated-link-box {
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 13px;
+
+  border: 1px solid #e1e2e6;
+
+  border-radius: 10px;
+
+  background: #fafbfc;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  text-align: left;
+}
+
+.link-info {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.link-info span {
+  color: #999ba3;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.link-info strong {
+  overflow: hidden;
+
+  color: #50525a;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+.copy-button {
+  flex-shrink: 0;
+
+  border: 1px solid #dedfe4;
+
+  border-radius: 7px;
+
+  padding: 8px 12px;
+
+  background: #fff;
+  color: #17181c;
+
+  font-family: inherit;
+
+  font-size: 10px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition: 0.2s ease;
+}
+
+.copy-button:hover {
+  background: #f0f1f3;
+}
+
+
+/* =========================================
+   DIVIDER
+========================================= */
+
+.meeting-divider {
+  width: 100%;
+
+  display: flex;
+  align-items: center;
+
+  gap: 12px;
+
+  margin: 24px 0;
+
+  color: #b0b2b9;
+
+  font-size: 9px;
+  font-weight: 600;
+}
+
+.meeting-divider::before,
+.meeting-divider::after {
+  content: "";
+
+  flex: 1;
+
+  height: 1px;
+
+  background: #e9eaed;
+}
+
+
+/* =========================================
+   JOIN EXISTING MEETING
+========================================= */
+
+.join-existing-button {
+  width: 100%;
+  min-height: 74px;
+
+  padding: 13px 15px;
+
+  border: 1px solid #dedfe4;
+
+  border-radius: 12px;
+
+  background: #fff;
+  color: #17181c;
+
+  display: flex;
+  align-items: center;
+
+  gap: 13px;
+
+  text-align: left;
+
+  text-decoration: none !important;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    border-color 0.2s ease;
+}
+
+.join-existing-button:link,
+.join-existing-button:visited,
+.join-existing-button:hover,
+.join-existing-button:active {
+  color: #17181c;
+
+  text-decoration: none !important;
+}
+
+.join-existing-button:hover {
+  transform: translateY(-2px);
+
+  border-color: #cfd0d5;
+
+  box-shadow:
+    0 9px 25px rgba(20, 20, 30, 0.07);
+}
+
+
+/* =========================================
+   JOIN ICON
+========================================= */
+
+.join-existing-icon {
+  width: 43px;
+  height: 43px;
+
+  flex-shrink: 0;
+
+  border-radius: 10px;
+
+  background: #f0edff;
+  color: #7058c5;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 19px;
+}
+
+
+/* =========================================
+   SECURITY
+========================================= */
+
+.meeting-security {
+  margin-top: 21px;
+
+  color: #a4a6ad;
+
+  font-size: 10px;
+}
+
+.meeting-security span {
+  margin-right: 5px;
+
+  color: #62b77e;
+}
+
+
+/* =========================================
+   CREATED MEETING CARD
+========================================= */
+
+.meeting-created-card {
+  width: 100%;
+  max-width: 510px;
+
+  padding: 42px;
+
+  border: 1px solid #e3e4e8;
+
+  border-radius: 22px;
+
+  background: rgba(255, 255, 255, 0.97);
+
+  text-align: center;
+
+  box-shadow:
+    0 25px 70px rgba(20, 20, 30, 0.08);
+
+  animation: meetingCardIn 0.25s ease;
+}
+
+@keyframes meetingCardIn {
+  from {
+    opacity: 0;
+
+    transform: translateY(10px);
+  }
+
+  to {
+    opacity: 1;
+
+    transform: translateY(0);
+  }
+}
+
+
+/* =========================================
+   SUCCESS
+========================================= */
+
+.success-icon {
+  width: 55px;
+  height: 55px;
+
+  margin: 0 auto 22px;
+
+  border-radius: 16px;
+
+  background: #eaf8f0;
+  color: #3e9c68;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 25px;
+  font-weight: 700;
+}
+
+
+/* =========================================
+   MEETING CODE
+========================================= */
+
+.meeting-code-container {
+  margin-top: 25px;
+
+  padding: 18px;
+
+  border: 1px solid #e2e3e7;
+
+  border-radius: 13px;
+
+  background: #fafbfc;
+}
+
+.meeting-code-container > span {
+  display: block;
+
+  margin-bottom: 12px;
+
+  color: #999ba3;
+
+  font-size: 9px;
+  font-weight: 700;
+
+  letter-spacing: 1.3px;
+}
+
+.meeting-code {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 7px;
+}
+
+.meeting-code span {
+  width: 42px;
+  height: 48px;
+
+  border-radius: 9px;
+
+  background: #17181c;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 19px;
+  font-weight: 650;
+}
+
+
+/* =========================================
+   MEETING LINK
+========================================= */
+
+.meeting-link-container {
+  width: 100%;
+
+  margin-top: 10px;
+
+  padding: 13px;
+
+  border: 1px solid #e2e3e7;
+
+  border-radius: 10px;
+
+  background: #fff;
+
+  display: flex;
+  align-items: center;
+
+  gap: 10px;
+
+  text-align: left;
+}
+
+.meeting-link-info {
+  min-width: 0;
+
+  flex: 1;
+
+  display: flex;
+  flex-direction: column;
+
+  gap: 5px;
+}
+
+.meeting-link-info span {
+  color: #999ba3;
+
+  font-size: 8px;
+  font-weight: 700;
+
+  letter-spacing: 1px;
+}
+
+.meeting-link-info strong {
+  overflow: hidden;
+
+  color: #50525a;
+
+  font-size: 10px;
+  font-weight: 500;
+
+  white-space: nowrap;
+  text-overflow: ellipsis;
+}
+
+
+/* =========================================
+   CREATOR JOIN
+========================================= */
+
+.creator-join-button {
+  width: 100%;
+  height: 50px;
+
+  margin-top: 15px;
+
+  border: none;
+
+  border-radius: 10px;
+
+  background: #17181c;
+  color: #fff;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  gap: 15px;
+
+  font-family: inherit;
+
+  font-size: 13px;
+  font-weight: 600;
+
+  cursor: pointer;
+
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.creator-join-button:hover {
+  transform: translateY(-2px);
+
+  box-shadow:
+    0 9px 25px rgba(23, 24, 28, 0.15);
+}
+
+.creator-join-button strong {
+  color: #bfc1c7;
+
+  font-size: 17px;
+}
+
+
+/* =========================================
+   CREATE ANOTHER
+========================================= */
+
+.create-another-button {
+  margin-top: 17px;
+
+  border: none;
+
+  background: transparent;
+
+  color: #85878f;
+
+  font-family: inherit;
+
+  font-size: 11px;
+
+  cursor: pointer;
+
+  transition: color 0.2s ease;
+}
+
+.create-another-button:hover {
+  color: #17181c;
+}
+
+
+/* =========================================
+   TABLET
+========================================= */
+
+@media (max-width: 700px) {
+
+  .meeting-back {
+    top: 20px;
+    left: 20px;
+  }
+
+  .new-meeting-container {
+    padding: 75px 16px 35px;
+  }
+
+  .new-meeting-card,
+  .meeting-created-card {
+    max-width: 470px;
+
+    padding: 34px 24px;
+
+    border-radius: 18px;
+  }
+
+  .meeting-logo {
+    margin-bottom: 25px;
+  }
+
+  .new-meeting-card h1,
+  .meeting-created-card h1 {
+    font-size: 28px;
+  }
+}
+
+
+/* =========================================
+   MOBILE
+========================================= */
+
+@media (max-width: 480px) {
+
+  .meeting-back {
+    font-size: 12px;
+  }
+
+  .new-meeting-container {
+    padding: 70px 12px 30px;
+  }
+
+  .meeting-logo {
+    font-size: 17px;
+  }
+
+  .meeting-logo-mark {
+    width: 33px;
+    height: 33px;
+  }
+
+  .new-meeting-card,
+  .meeting-created-card {
+    padding: 30px 17px;
+  }
+
+  .new-meeting-card h1,
+  .meeting-created-card h1 {
+    font-size: 26px;
+  }
+
+  .meeting-description {
+    font-size: 12px;
+  }
+
+  .meeting-code {
+    gap: 5px;
+  }
+
+  .meeting-code span {
+    width: 39px;
+    height: 44px;
+
+    font-size: 17px;
+  }
+}
+
+
+/* =========================================
+   VERY SMALL DEVICES
+========================================= */
+
+@media (max-width: 350px) {
+
+  .meeting-code {
+    gap: 3px;
+  }
+
+  .meeting-code span {
+    width: 35px;
+    height: 42px;
+
+    font-size: 16px;
+  }
+
+  .generate-button,
+  .join-existing-button {
+    padding: 11px;
+  }
+
+  .button-icon,
+  .join-existing-icon {
+    width: 38px;
+    height: 38px;
+  }
+}
+
+/* =========================================
+   CUSTOM MEETING TITLE INPUT
+========================================= */
+
+.meeting-title-input-group {
+  margin: 16px 0 20px;
+  text-align: left;
+  width: 100%;
+}
+
+.title-input-label {
+  display: block;
+  font-size: 13px;
+  font-weight: 600;
+  color: #374151;
+  margin-bottom: 7px;
+}
+
+.title-input-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.title-input-icon {
+  position: absolute;
+  left: 14px;
+  font-size: 15px;
+  color: #6b7280;
+  pointer-events: none;
+}
+
+.meeting-title-input {
+  width: 100%;
+  background: #ffffff;
+  border: 1px solid #d1d5db;
+  color: #111827;
+  padding: 12px 14px 12px 40px;
+  border-radius: 12px;
+  font-size: 14px;
+  font-family: inherit;
+  transition: all 0.2s ease;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+
+.meeting-title-input:focus {
+  outline: none;
+  border-color: #6366f1;
+  box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+}
+
+.meeting-error-text {
+  color: #ef4444;
+  font-size: 13px;
+  margin-top: 10px;
+  text-align: center;
+}
+
+

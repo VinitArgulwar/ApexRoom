@@ -1,0 +1,337 @@
+
+* {
+  box-sizing: border-box;
+}
+
+.join-page {
+  min-height: 100vh;
+  background: #f7f8fa;
+  color: #17181c;
+  position: relative;
+  overflow: hidden;
+  font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+}
+
+/* =========================
+   BACKGROUND
+========================= */
+
+.join-glow {
+  position: absolute;
+  border-radius: 50%;
+  pointer-events: none;
+  filter: blur(2px);
+}
+
+.glow-one {
+  width: 400px;
+  height: 400px;
+  background: #eef1ff;
+  top: -180px;
+  left: -150px;
+}
+
+.glow-two {
+  width: 350px;
+  height: 350px;
+  background: #f1ecff;
+  bottom: -160px;
+  right: -120px;
+}
+
+/* =========================
+   BACK BUTTON
+========================= */
+
+.back-button {
+  position: absolute;
+  top: 28px;
+  left: 32px;
+  border: none;
+  background: transparent;
+  color: #70727a;
+  font-size: 13px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  z-index: 5;
+  text-decoration: none;
+}
+
+.back-button span {
+  font-size: 18px;
+  transition: transform 0.2s ease;
+}
+
+.back-button:hover span {
+  transform: translateX(-3px);
+}
+
+.back-button:hover {
+  color: #17181c;
+}
+
+/* =========================
+   MAIN
+========================= */
+
+.join-container {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 70px 20px 40px;
+  position: relative;
+  z-index: 2;
+}
+
+/* =========================
+   LOGO
+========================= */
+
+.join-logo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: 700;
+  font-size: 18px;
+  margin-bottom: 28px;
+}
+
+.join-logo-mark {
+  width: 34px;
+  height: 34px;
+  background: #17181c;
+  color: #fff;
+  border-radius: 9px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 800;
+}
+
+/* =========================
+   CARD
+========================= */
+
+.join-card {
+  width: 100%;
+  max-width: 475px;
+  background: #fff;
+  border: 1px solid #e7e8ec;
+  border-radius: 22px;
+  padding: 42px 42px 38px;
+  text-align: center;
+  box-shadow: 0 25px 70px rgba(20, 20, 30, 0.07);
+}
+
+.join-icon {
+  width: 52px;
+  height: 52px;
+  border-radius: 15px;
+  background: #f0f2ff;
+  color: #5d6fd8;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 23px;
+  font-size: 23px;
+  font-weight: 600;
+}
+
+.join-eyebrow {
+  color: #8b8d95;
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 1.6px;
+  margin: 0 0 9px;
+}
+
+.join-card h1 {
+  margin: 0;
+  font-size: 30px;
+  letter-spacing: -1.2px;
+}
+
+.join-description {
+  max-width: 350px;
+  margin: 12px auto 30px;
+  color: #85878f;
+  font-size: 13px;
+  line-height: 1.65;
+}
+
+/* =========================
+   CODE INPUT
+========================= */
+
+.code-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 9px;
+  margin-bottom: 12px;
+}
+
+.code-inputs input {
+  width: 49px;
+  height: 57px;
+  border: 1.5px solid #dedfe4;
+  background: #fafbfc;
+  border-radius: 10px;
+  outline: none;
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: #17181c;
+  transition: 0.2s ease;
+}
+
+.code-inputs input:focus {
+  border-color: #17181c;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(23, 24, 28, 0.06);
+}
+
+.code-inputs input.filled {
+  border-color: #bfc1c7;
+  background: #fff;
+}
+
+.code-hint {
+  color: #a0a2a9;
+  font-size: 10px;
+  margin: 0 0 25px;
+}
+
+/* =========================
+   BUTTON
+========================= */
+
+.join-button {
+  width: 100%;
+  height: 49px;
+  border: none;
+  border-radius: 10px;
+  background: #e3e4e7;
+  color: #999ba2;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: not-allowed;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  transition: 0.2s ease;
+}
+
+.join-button.enabled {
+  background: #17181c;
+  color: #fff;
+  cursor: pointer;
+}
+
+.join-button.enabled:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 8px 20px rgba(23, 24, 28, 0.15);
+}
+
+.join-button span {
+  font-size: 17px;
+}
+
+/* =========================
+   DIVIDER
+========================= */
+
+.join-divider {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin: 25px 0 20px;
+  color: #b0b2b8;
+  font-size: 11px;
+}
+
+.join-divider::before,
+.join-divider::after {
+  content: "";
+  height: 1px;
+  background: #ececef;
+  flex: 1;
+}
+
+/* =========================
+   CREATE
+========================= */
+
+.create-text {
+  color: #85878f;
+  font-size: 12px;
+  margin: 0 0 10px;
+}
+
+.create-button {
+  border: none;
+  background: transparent;
+  color: #17181c;
+  font-size: 12px;
+  font-weight: 600;
+  cursor: pointer;
+  text-decoration: none;
+}
+
+.create-button:hover {
+  text-decoration: underline;
+}
+
+/* =========================
+   FOOTER
+========================= */
+
+.join-footer {
+  margin-top: 22px;
+  color: #aaaab1;
+  font-size: 10px;
+}
+
+.join-footer strong {
+  color: #777981;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 600px) {
+  .back-button {
+    top: 20px;
+    left: 20px;
+  }
+
+  .join-container {
+    padding-top: 75px;
+  }
+
+  .join-card {
+    padding: 32px 20px;
+  }
+
+  .code-inputs {
+    gap: 6px;
+  }
+
+  .code-inputs input {
+    width: 43px;
+    height: 52px;
+  }
+}
+
+@media (max-width: 370px) {
+  .code-inputs input {
+    width: 39px;
+    height: 48px;
+  }
+}
+
