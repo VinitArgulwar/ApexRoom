@@ -1,5 +1,16 @@
 {
-  "dependencies": {
-    "crypto": "^1.0.1"
+  "name": "apexroom",
+  "version": "1.0.0",
+  "description": "One-to-one video conferencing web application",
+  "private": true,
+  "scripts": {
+    "install:all": "npm --prefix backend install && npm --prefix frontend install",
+    "dev:backend": "npm --prefix backend run dev",
+    "dev:frontend": "npm --prefix frontend run dev",
+    "dev": "concurrently -n \"BACKEND,FRONTEND\" -c \"blue,green\" \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "start": "npm run dev"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
   }
 }

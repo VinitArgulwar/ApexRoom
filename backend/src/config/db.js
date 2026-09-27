@@ -5,7 +5,8 @@ dotenv.config();
 
 const connectDB = async () => {
     try {
-        await mongoose.connect(process.env.MONGO_URI);
+        const mongoUri = process.env.MONGO_URI || "mongodb://127.0.0.1:27017/apexroom";
+        await mongoose.connect(mongoUri);
         console.log("MongoDB connected");
     } catch (error) {
         console.error("Error connecting to MongoDB:", error);
