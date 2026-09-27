@@ -74,34 +74,3 @@ The application uses **Socket.IO for signaling** to exchange WebRTC offers, answ
 **WebRTC** is responsible for the actual peer-to-peer transmission of audio and video.
 
 The application uses WebRTC `replaceTrack()` to switch between the camera and screen-sharing streams without creating a new peer connection.
-
-## How to Run
-
-### 1. Install Dependencies
-From the root directory:
-```bash
-npm install
-npm run install:all
-```
-
-### 2. Configure Environment (.env)
-- **Backend**: [backend/.env](file:///Users/vinitargulwar/Desktop/ApexRoom/backend/.env)
-  ```env
-  PORT=3000
-  CLIENT_URL=http://localhost:5173
-  MONGO_URI=mongodb://127.0.0.1:27017/apexroom
-  JWT_SECRET=apexroom-super-secret-jwt-key
-  ```
-- **Frontend**: [frontend/.env](file:///Users/vinitargulwar/Desktop/ApexRoom/frontend/.env)
-  ```env
-  VITE_API_URL=http://localhost:3000
-  ```
-
-### 3. Start Both Frontend & Backend
-Run the following from the root directory:
-```bash
-npm run dev
-```
-- Frontend: http://localhost:5173
-- Backend: http://localhost:3000
-
