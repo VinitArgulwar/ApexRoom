@@ -1,9 +1,9 @@
-let rawUrl = import.meta.env.VITE_API_URL || "http://localhost:3000";
+let rawUrl = (import.meta.env.VITE_API_URL || "http://localhost:3000").trim();
 
-rawUrl = rawUrl.trim();
 const match = rawUrl.match(/https?:\/\/[^\s]+/);
 if (match) {
     rawUrl = match[0];
 }
 
-export const API_BASE_URL = rawUrl;
+export const API_BASE_URL = rawUrl.replace(/\/+$/, "");
+

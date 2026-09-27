@@ -12,7 +12,10 @@ dotenv.config();
 const app = express();
 const clientOrigin = process.env.CLIENT_URL || "http://localhost:5173";
 
-app.use(cors({ origin: clientOrigin }));
+app.use(cors({
+    origin: true,
+    credentials: true
+}));
 app.use(express.json());
 app.use("/api/auth", authRoutes);
 app.use("/api/meetings", meetingRoutes);
@@ -22,7 +25,12 @@ app.get("/", (req, res) => {
 });
 
 const server = createServer(app);
-const io = new Server(server, { cors: { origin: clientOrigin } });
+const io = new Server(server, {
+    cors: {
+        origin: "*",
+        methods: ["GET", "POST"]
+    }
+});
 
 io.on("connection", (socket) => {
     // Participant requests to join room
