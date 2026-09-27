@@ -17,6 +17,9 @@ function Meeting() {
 
     const [isMuted, setIsMuted] = useState(false);
     const [isCameraOff, setIsCameraOff] = useState(false);
+    const [isRemoteMuted, setIsRemoteMuted] = useState(false);
+    const [isRemoteCameraOff, setIsRemoteCameraOff] = useState(false);
+    const [hasRemoteParticipant, setHasRemoteParticipant] = useState(false);
     const [isScreenSharing, setIsScreenSharing] = useState(false);
     const [meetingStatus, setMeetingStatus] = useState("scheduled");
     const [isHost, setIsHost] = useState(false);
@@ -303,6 +306,13 @@ function Meeting() {
             peer.ontrack = (event) => {
                 if (remoteVideoRef.current && event.streams && event.streams[0]) {
                     remoteVideoRef.current.srcObject = event.streams[0];
+                    setHasRemoteParticipant(true);
+
+                    const videoTrack = event.streams[0].getVideoTracks()[0];
+                    if (videoTrack) {
+                        videoTrack.onmute = () => setIsRemoteCameraOff(true);
+                        videoTrack.onunmute = () => setIsRemoteCameraOff(false);
+                    }
                 }
             };
 
@@ -312,6 +322,8 @@ function Meeting() {
 
             if (!socket.connected) socket.connect();
             socket.emit("join-room", { meetingId, userName: currentUserName });
+            socket.emit("camera-status", { meetingId, isCameraOff });
+            socket.emit("mic-status", { meetingId, isMuted });
 
         } catch (error) {
             console.error("Error starting media/WebRTC:", error);
@@ -381,9 +393,21 @@ function Meeting() {
     useEffect(() => {
         const handleUserJoined = async (data) => {
             console.log("User joined the room:", data);
+            setHasRemoteParticipant(true);
             if (data?.userName) {
                 setRemoteUserName(data.userName);
             }
+
+            // Sync current camera and mic state with newly joined participant
+            socket.emit("camera-status", {
+                meetingId,
+                isCameraOff
+            });
+            socket.emit("mic-status", {
+                meetingId,
+                isMuted
+            });
+
             const peer = peerRef.current;
             if (!peer) return;
 
@@ -460,7 +484,18 @@ function Meeting() {
             if (remoteVideoRef.current) {
                 remoteVideoRef.current.srcObject = null;
             }
+            setHasRemoteParticipant(false);
+            setIsRemoteCameraOff(false);
+            setIsRemoteMuted(false);
             setRemoteUserName("Remote Participant");
+        };
+
+        const handleCameraStatus = ({ isCameraOff: remoteOff }) => {
+            setIsRemoteCameraOff(Boolean(remoteOff));
+        };
+
+        const handleMicStatus = ({ isMuted: remoteMuted }) => {
+            setIsRemoteMuted(Boolean(remoteMuted));
         };
 
         // Host receives a knock/request from a participant
@@ -509,6 +544,8 @@ function Meeting() {
         socket.on("answer", handleAnswer);
         socket.on("ice-candidate", handleIceCandidate);
         socket.on("user-left", handleUserLeft);
+        socket.on("camera-status", handleCameraStatus);
+        socket.on("mic-status", handleMicStatus);
 
         socket.on("join-request", handleJoinRequest);
         socket.on("join-request-cancelled", handleJoinRequestCancelled);
@@ -521,6 +558,8 @@ function Meeting() {
             socket.off("answer", handleAnswer);
             socket.off("ice-candidate", handleIceCandidate);
             socket.off("user-left", handleUserLeft);
+            socket.off("camera-status", handleCameraStatus);
+            socket.off("mic-status", handleMicStatus);
 
             socket.off("join-request", handleJoinRequest);
             socket.off("join-request-cancelled", handleJoinRequestCancelled);
@@ -876,24 +915,51 @@ function Meeting() {
 
                     {/* Remote Participant */}
                     <div className="video-card remote-card">
-                        <div className="video-placeholder">
-                            <div className="placeholder-avatar">👥</div>
-                            <p className="placeholder-title">Waiting for participant</p>
-                            <p className="placeholder-subtitle">
-                                Share room code <strong>{meetingId}</strong> to connect
-                            </p>
-                        </div>
+                        {hasRemoteParticipant && isRemoteCameraOff ? (
+                            <div className="video-placeholder camera-off-placeholder">
+                                <div className="placeholder-avatar">👤</div>
+                                <p className="placeholder-title">{remoteUserName || "Participant"}</p>
+                                <p className="placeholder-subtitle">Camera is turned off</p>
+                            </div>
+                        ) : !hasRemoteParticipant ? (
+                            <div className="video-placeholder">
+                                <div className="placeholder-avatar">👥</div>
+                                <p className="placeholder-title">Waiting for participant</p>
+                                <p className="placeholder-subtitle">
+                                    Share room code <strong>{meetingId}</strong> to connect
+                                </p>
+                            </div>
+                        ) : null}
                         <video
                             ref={remoteVideoRef}
                             autoPlay
                             playsInline
-                            className="meeting-video"
+                            className={`meeting-video ${(!hasRemoteParticipant || isRemoteCameraOff) ? "video-hidden" : ""}`}
                         />
                         <div className="video-overlay-bottom">
                             <div className="participant-chip">
                                 <span className="user-icon">👥</span>
                                 <span className="user-name">{remoteUserName}</span>
                             </div>
+                            {hasRemoteParticipant && (
+                                <div className="video-status-pills">
+                                    {isRemoteMuted && (
+                                        <span className="status-badge muted">
+                                            <svg viewBox="0 0 24 24" width="12" height="12" fill="currentColor">
+                                                <line x1="1" y1="1" x2="23" y2="23" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" />
+                                                <path d="M9 9v3a3 3 0 0 0 5.12 2.12M15 9.34V4a3 3 0 0 0-5.94-.6" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                <path d="M17 16.95A7 7 0 0 1 5 12v-2m14 0v2a7 7 0 0 1-.11 1.23" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                <line x1="12" y1="19" x2="12" y2="23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                                <line x1="8" y1="23" x2="16" y2="23" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                                            </svg>
+                                            Muted
+                                        </span>
+                                    )}
+                                    <span className={`status-badge ${isRemoteCameraOff ? "camera-off" : "live"}`}>
+                                        {isRemoteCameraOff ? "Camera Off" : "● Active"}
+                                    </span>
+                                </div>
+                            )}
                         </div>
                     </div>
                 </div>
