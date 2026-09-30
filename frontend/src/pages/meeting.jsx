@@ -24,6 +24,17 @@ function Meeting() {
     const [meetingStatus, setMeetingStatus] = useState("scheduled");
     const [isHost, setIsHost] = useState(false);
 
+    const isMutedRef = useRef(isMuted);
+    const isCameraOffRef = useRef(isCameraOff);
+
+    useEffect(() => {
+        isMutedRef.current = isMuted;
+    }, [isMuted]);
+
+    useEffect(() => {
+        isCameraOffRef.current = isCameraOff;
+    }, [isCameraOff]);
+
     // Join Flow States: 'loading' | 'name_entry' | 'waiting' | 'rejected' | 'joined' | 'error'
     const [joinStage, setJoinStage] = useState("loading");
     const [meetingTitle, setMeetingTitle] = useState("Quick Meeting");
@@ -42,32 +53,19 @@ function Meeting() {
         }
 
         try {
-            const cameraStream = await navigator.mediaDevices.getUserMedia({
-                video: true,
-                audio: false
-            });
+            const oldStream = localStreamRef.current;
+            const videoTrack = oldStream ? oldStream.getVideoTracks()[0] : null;
 
-            const cameraTrack = cameraStream.getVideoTracks()[0];
             const sender = peerRef.current
                 ?.getSenders()
                 .find((s) => s.track?.kind === "video");
 
             if (sender) {
-                await sender.replaceTrack(cameraTrack);
+                await sender.replaceTrack(videoTrack || null);
             }
 
-            const oldStream = localStreamRef.current;
-            const audioTracks = oldStream ? oldStream.getAudioTracks() : [];
-
-            const updatedStream = new MediaStream([
-                ...audioTracks,
-                cameraTrack
-            ]);
-
-            localStreamRef.current = updatedStream;
-
-            if (localVideoRef.current) {
-                localVideoRef.current.srcObject = updatedStream;
+            if (localVideoRef.current && oldStream) {
+                localVideoRef.current.srcObject = oldStream;
             }
         } catch (err) {
             console.error("Error restoring camera after screen share:", err);
@@ -322,8 +320,8 @@ function Meeting() {
 
             if (!socket.connected) socket.connect();
             socket.emit("join-room", { meetingId, userName: currentUserName });
-            socket.emit("camera-status", { meetingId, isCameraOff });
-            socket.emit("mic-status", { meetingId, isMuted });
+            socket.emit("camera-status", { meetingId, isCameraOff: isCameraOffRef.current });
+            socket.emit("mic-status", { meetingId, isMuted: isMutedRef.current });
 
         } catch (error) {
             console.error("Error starting media/WebRTC:", error);
@@ -401,11 +399,11 @@ function Meeting() {
             // Sync current camera and mic state with newly joined participant
             socket.emit("camera-status", {
                 meetingId,
-                isCameraOff
+                isCameraOff: isCameraOffRef.current
             });
             socket.emit("mic-status", {
                 meetingId,
-                isMuted
+                isMuted: isMutedRef.current
             });
 
             const peer = peerRef.current;
@@ -1003,9 +1001,10 @@ function Meeting() {
 
                     {/* Camera Toggle Button */}
                     <button
-                        className={`control-btn toggle-btn ${isCameraOff ? "is-off is-camera-off" : "is-active"}`}
+                        className={`control-btn toggle-btn ${isScreenSharing ? "is-disabled" : isCameraOff ? "is-off is-camera-off" : "is-active"}`}
                         onClick={toggleCamera}
-                        title={isCameraOff ? "Turn camera on" : "Turn camera off"}
+                        disabled={isScreenSharing}
+                        title={isScreenSharing ? "Cannot toggle camera while sharing screen" : isCameraOff ? "Turn camera on" : "Turn camera off"}
                         aria-label={isCameraOff ? "Turn camera on" : "Turn camera off"}
                     >
                         <span className="control-btn-icon">
