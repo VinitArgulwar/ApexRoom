@@ -89,6 +89,15 @@ io.on("connection", (socket) => {
         socket.to(meetingId).emit("mic-status", { isMuted });
     });
 
+    socket.on("disconnecting", () => {
+        // If the user drops out abruptly, inform all rooms they were in
+        socket.rooms.forEach((room) => {
+            if (room !== socket.id) {
+                socket.to(room).emit("user-left");
+            }
+        });
+    });
+
     socket.on("disconnect", () => {
         // Broadcast request cancellation in case waiting participant drops
         io.emit("join-request-cancelled", { participantSocketId: socket.id });
